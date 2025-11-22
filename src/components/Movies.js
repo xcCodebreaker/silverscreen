@@ -48,7 +48,7 @@ const Movies = () => {
                 </tbody>
             </table>
         </div>
-    );
-};
+    )
+}
 
 export default Movies;
