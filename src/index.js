@@ -31,11 +31,15 @@ const router = createBrowserRouter([
         path: "/genres",
         element: <Genres />,
       },
-            {
+      {
         path: "/admin/movie/0",
         element: <EditMovie />,
       },
-            {
+      {
+        path: "/admin/movie/:id",
+        element: <EditMovie />,
+      },
+      {
         path: "/manage-catalogue",
         element: <ManageCatalogue />,
       },
@@ -46,9 +50,7 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
-      },
-      
-      
+      }, 
     ]
   }
 ])
