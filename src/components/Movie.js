@@ -5,7 +5,7 @@ const Movie = () => {
     const [movie, setMovie] = useState({});
     let { id } = useParams();
 
-    useEffect( () => {
+    useEffect(() => {
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
 
@@ -29,6 +29,7 @@ const Movie = () => {
     } else {
         movie.genres = [];
     }
+
     return(
         <div>
             <h2>Movie: {movie.title}</h2>
@@ -43,6 +44,7 @@ const Movie = () => {
                     <img src={`https://image.tmdb.org/t/p/w200/${movie.image}`} alt="poster" />
                 </div>
             }
+
             <p>{movie.description}</p>
         </div>
     )

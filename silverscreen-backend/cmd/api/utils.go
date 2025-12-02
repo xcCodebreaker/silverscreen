@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-type JSONResoponse struct {
+type JSONResponse struct {
 	Error   bool        `json:"error"`
 	Message string      `json:"message"`
 	Data    interface{} `json:"data,omitempty"`
@@ -27,7 +27,6 @@ func (app *application) writeJSON(w http.ResponseWriter, status int, data interf
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
-
 	_, err = w.Write(out)
 	if err != nil {
 		return err
@@ -37,7 +36,7 @@ func (app *application) writeJSON(w http.ResponseWriter, status int, data interf
 }
 
 func (app *application) readJSON(w http.ResponseWriter, r *http.Request, data interface{}) error {
-	maxBytes := 1024 * 1024 //1MB
+	maxBytes := 1024 * 1024 // one megabyte
 	r.Body = http.MaxBytesReader(w, r.Body, int64(maxBytes))
 
 	dec := json.NewDecoder(r.Body)
@@ -64,7 +63,7 @@ func (app *application) errorJSON(w http.ResponseWriter, err error, status ...in
 		statusCode = status[0]
 	}
 
-	var payload JSONResoponse
+	var payload JSONResponse
 	payload.Error = true
 	payload.Message = err.Error()
 

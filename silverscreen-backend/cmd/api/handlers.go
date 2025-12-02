@@ -23,7 +23,7 @@ func (app *application) Home(w http.ResponseWriter, r *http.Request) {
 		Version string `json:"version"`
 	}{
 		Status:  "active",
-		Message: "Movies are active",
+		Message: "Go Movies up and running",
 		Version: "1.0.0",
 	}
 
@@ -38,7 +38,6 @@ func (app *application) AllMovies(w http.ResponseWriter, r *http.Request) {
 	}
 
 	_ = app.writeJSON(w, http.StatusOK, movies)
-
 }
 
 func (app *application) authenticate(w http.ResponseWriter, r *http.Request) {
@@ -54,28 +53,28 @@ func (app *application) authenticate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//validate user against db
+	// validate user against database
 	user, err := app.DB.GetUserByEmail(requestPayload.Email)
 	if err != nil {
 		app.errorJSON(w, errors.New("invalid credentials"), http.StatusBadRequest)
 		return
 	}
 
-	//check pass
+	// check password
 	valid, err := user.PasswordMatches(requestPayload.Password)
 	if err != nil || !valid {
 		app.errorJSON(w, errors.New("invalid credentials"), http.StatusBadRequest)
 		return
 	}
 
-	//create a jwt user
+	// create a jwt user
 	u := jwtUser{
 		ID:        user.ID,
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
 	}
 
-	//generate tokens
+	// generate tokens
 	tokens, err := app.auth.GenerateTokenPair(&u)
 	if err != nil {
 		app.errorJSON(w, err)
@@ -103,7 +102,7 @@ func (app *application) refreshToken(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 
-			//get the user id from the token claims
+			// get the user id from the token claims
 			userID, err := strconv.Atoi(claims.Subject)
 			if err != nil {
 				app.errorJSON(w, errors.New("unknown user"), http.StatusUnauthorized)
@@ -191,7 +190,6 @@ func (app *application) MovieForEdit(w http.ResponseWriter, r *http.Request) {
 	}
 
 	_ = app.writeJSON(w, http.StatusOK, payload)
-
 }
 
 func (app *application) AllGenres(w http.ResponseWriter, r *http.Request) {
@@ -213,7 +211,7 @@ func (app *application) InsertMovie(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//try to get an image
+	// try to get an image
 	movie = app.getPoster(movie)
 
 	movie.CreatedAt = time.Now()
@@ -224,14 +222,15 @@ func (app *application) InsertMovie(w http.ResponseWriter, r *http.Request) {
 		app.errorJSON(w, err)
 		return
 	}
-	//now handle genres
+
+	// now handle genres
 	err = app.DB.UpdateMovieGenres(newID, movie.GenresArray)
 	if err != nil {
 		app.errorJSON(w, err)
 		return
 	}
 
-	resp := JSONResoponse{
+	resp := JSONResponse{
 		Error:   false,
 		Message: "movie updated",
 	}
@@ -282,4 +281,46 @@ func (app *application) getPoster(movie models.Movie) models.Movie {
 	}
 
 	return movie
+}
+
+func (app *application) UpdateMovie(w http.ResponseWriter, r *http.Request) {
+	var payload models.Movie
+
+	err := app.readJSON(w, r, &payload)
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	movie, err := app.DB.OneMovie(payload.ID)
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	movie.Title = payload.Title
+	movie.ReleaseDate = payload.ReleaseDate
+	movie.Description = payload.Description
+	movie.MPAARating = payload.MPAARating
+	movie.RunTime = payload.RunTime
+	movie.UpdatedAt = time.Now()
+
+	err = app.DB.UpdateMovie(*movie)
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	err = app.DB.UpdateMovieGenres(movie.ID, payload.GenresArray)
+	if err != nil {
+		app.errorJSON(w, err)
+		return
+	}
+
+	resp := JSONResponse{
+		Error:   false,
+		Message: "movie updated",
+	}
+
+	app.writeJSON(w, http.StatusAccepted, resp)
 }

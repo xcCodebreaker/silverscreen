@@ -1,11 +1,11 @@
 import { useState } from "react";
-import Input from "./form/Input";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import Input from "./form/Input";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    
+
     const { setJwtToken } = useOutletContext();
     const { setAlertClassName } = useOutletContext();
     const { setAlertMessage } = useOutletContext();
@@ -16,7 +16,7 @@ const Login = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         
-        //build the request payload
+        // build the request payload
         let payload = {
             email: email,
             password: password,
@@ -59,7 +59,7 @@ const Login = () => {
             <form onSubmit={handleSubmit}>
                 <Input
                     title="Email Address"
-                    type="Email"
+                    type="email"
                     className="form-control"
                     name="email"
                     autoComplete="email-new"
@@ -77,11 +77,12 @@ const Login = () => {
 
                 <hr />
 
-                <input
+                <input 
                     type="submit"
                     className="btn btn-primary"
                     value="Login"
                 />
+
 
             </form>
         </div>
