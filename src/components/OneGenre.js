@@ -38,36 +38,53 @@ const OneGenre = () => {
 
   // return jsx
   return (
-    <>
+    <div>
       <h2>Genre: {genreName}</h2>
+      <p className="text-secondary">{movies.length} movies in this genre</p>
 
-      <hr />
-
-      {movies ? (
-        <table className="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th>Movie</th>
-              <th>Release Date</th>
-              <th>Rating</th>
-            </tr>
-          </thead>
-          <tbody>
-            {movies.map((m) => (
-              <tr key={m.id}>
-                <td>
-                  <Link to={`/movies/${m.id}`}>{m.title}</Link>
-                </td>
-                <td>{m.release_date}</td>
-                <td>{m.mpaa_rating}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      {movies && movies.length > 0 ? (
+        <div className="movies-grid">
+          {movies.map((m) => (
+            <Link 
+              to={`/movies/${m.id}`} 
+              key={m.id} 
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              <div className="movie-card">
+                {m.image ? (
+                  <img 
+                    src={`https://image.tmdb.org/t/p/w500${m.image}`} 
+                    alt={m.title}
+                    className="movie-card-image"
+                  />
+                ) : (
+                  <div className="movie-card-image" style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '3rem',
+                    fontWeight: '800',
+                    color: 'white'
+                  }}>
+                    🎬
+                  </div>
+                )}
+                <div className="movie-card-content">
+                  <h3 className="movie-card-title">{m.title}</h3>
+                  <p className="movie-card-meta">
+                    {new Date(m.release_date).getFullYear()} • {m.mpaa_rating}
+                  </p>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
       ) : (
-        <p>No movies in this genre (yet)!</p>
+        <div className="modern-card text-center">
+          <p className="text-secondary">No movies in this genre yet!</p>
+        </div>
       )}
-    </>
+    </div>
   );
 };
 

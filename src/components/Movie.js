@@ -30,22 +30,34 @@ const Movie = () => {
         movie.genres = [];
     }
 
-    return(
-        <div>
-            <h2>Movie: {movie.title}</h2>
-            <small><em>{movie.release_date}, {movie.runtime} minutes, Rated {movie.mpaa_rating}</em></small><br />
-            {movie.genres.map((g) => (
-                <span key={g.genre} className="badge bg-secondary me-2">{g.genre}</span>
-            ))}
-            <hr />
+    return (
+        <div className="movie-detail-container">
+            <div className="movie-detail-header">
+                {movie.image !== "" && (
+                    <div>
+                        <img
+                            src={`https://image.tmdb.org/t/p/w500/${movie.image}`}
+                            alt={movie.title}
+                            className="movie-poster"
+                        />
+                    </div>
+                )}
 
-            {movie.image !== "" &&
-                <div className="mb-3">
-                    <img src={`https://image.tmdb.org/t/p/w200/${movie.image}`} alt="poster" />
+                <div className="movie-info">
+                    <h1 className="movie-title">{movie.title}</h1>
+                    <p className="movie-meta">
+                        {movie.release_date && movie.release_date.split("T")[0]} • {movie.runtime} minutes • Rated {movie.mpaa_rating}
+                    </p>
+
+                    <div className="mb-3">
+                        {movie.genres.map((g) => (
+                            <span key={g.genre} className="modern-badge">{g.genre}</span>
+                        ))}
+                    </div>
+
+                    <p className="movie-description">{movie.description}</p>
                 </div>
-            }
-
-            <p>{movie.description}</p>
+            </div>
         </div>
     )
 }

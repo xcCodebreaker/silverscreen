@@ -1,17 +1,17 @@
 import { Link } from "react-router-dom";
-import Ticket from "./../images/movie_tickets.jpg";
+
 
 const Home = () => {
   return (
-    <>
-      <div className="text-center">
-        <h2>Find a movie to watch tonight!</h2>
-        <hr />
-        <Link to="/movies">
-          <img src={Ticket} alt="movie tickets"></img>
-        </Link>
-      </div>
-    </>
+    <div className="hero-section">
+      <h1 className="hero-title">Experience Cinema</h1>
+      <p className="hero-subtitle">
+        Your ultimate guide to the silver screen. Discover, rate, and explore thousands of movies in our curated catalog.
+      </p>
+      <Link to="/movies" className="modern-btn modern-btn-primary">
+        Start Browsing
+      </Link>
+    </div>
   );
 };
 

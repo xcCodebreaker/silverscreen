@@ -26,7 +26,7 @@ const Genres = () => {
       .catch((err) => {
         console.log(err);
       });
-  });
+  }, []);
 
   if (error !== null) {
     return <div>Error: {error.message}</div>;
@@ -34,13 +34,13 @@ const Genres = () => {
     return (
       <div>
         <h2>Genres</h2>
-        <hr />
+        <p className="text-secondary">Explore movies by genre</p>
 
-        <div className="list-group">
+        <div className="genres-grid">
           {genres.map((g) => (
             <Link
               key={g.id}
-              className="list-group-item list-group-item-action"
+              className="genre-card"
               to={`/genres/${g.id}`}
               state={{
                 genreName: g.genre,
