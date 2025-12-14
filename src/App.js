@@ -124,6 +124,12 @@ function App() {
               >
                 Genres
               </Link>
+              <Link
+                to="/search"
+                className="list-group-item list-group-item-action nav-item"
+              >
+                Search
+              </Link>
               {jwtToken !== "" && (
                 <>
                   <Link
@@ -138,12 +144,7 @@ function App() {
                   >
                     Manage Catalogue
                   </Link>
-                  <Link
-                    to="/search"
-                    className="list-group-item list-group-item-action nav-item"
-                  >
-                    Search
-                  </Link>
+
                 </>
               )}
             </div>
