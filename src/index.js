@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
-      {index: true, element: <Home /> },
+      { index: true, element: <Home /> },
       {
         path: "/movies",
         element: <Movies />,
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
         element: <ManageCatalogue />,
       },
       {
-        path: "/graphql",
+        path: "/search",
         element: <GraphQL />,
       },
       {

@@ -139,10 +139,10 @@ function App() {
                     Manage Catalogue
                   </Link>
                   <Link
-                    to="/graphql"
+                    to="/search"
                     className="list-group-item list-group-item-action nav-item"
                   >
-                    GraphQL
+                    Search
                   </Link>
                 </>
               )}

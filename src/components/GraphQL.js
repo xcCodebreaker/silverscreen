@@ -90,7 +90,7 @@ const GraphQL = () => {
 
   return (
     <div>
-      <h2>GraphQL</h2>
+      <h2>Search</h2>
       <hr />
 
       <form onSubmit={handleChange}>

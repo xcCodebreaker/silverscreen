@@ -135,9 +135,10 @@ func (app *application) refreshToken(w http.ResponseWriter, r *http.Request) {
 			http.SetCookie(w, app.auth.GetRefreshCookie(tokenPairs.RefreshToken))
 
 			app.writeJSON(w, http.StatusOK, tokenPairs)
-
+			return
 		}
 	}
+	app.errorJSON(w, errors.New("unauthorized"), http.StatusUnauthorized)
 }
 
 // logout logs the user out by sending an expired cookie to delete the refresh cookie.
